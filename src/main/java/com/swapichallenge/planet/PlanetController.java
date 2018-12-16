@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.CONFLICT;
@@ -27,9 +28,16 @@ public class PlanetController {
                              .body(planet);
     }
 
-    @ResponseStatus(value=CONFLICT, reason="Planet already exists")
-    @ExceptionHandler(PlanetAlreadyExistsException.class)
-    public void conflict(PlanetAlreadyExistsException e) {
+    @DeleteMapping("/{id}")
+    public void deletePlanet(@PathVariable("id") String id) {
+        planetService.delete(id);
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<List<PlanetResponse>> updatePlanet(){
+        List<PlanetResponse> planetResponses = planetService.findAll();
+
+        return ResponseEntity.ok(planetResponses);
     }
 
     @GetMapping("/{id}")
@@ -41,5 +49,10 @@ public class PlanetController {
                                                                 .orElseGet(() -> ResponseEntity.notFound().build());
 
         return responseEntity;
+    }
+
+    @ResponseStatus(value=CONFLICT, reason="Planet already exists")
+    @ExceptionHandler(PlanetAlreadyExistsException.class)
+    public void conflict(PlanetAlreadyExistsException e) {
     }
 }

@@ -36,4 +36,5 @@ dependencies {
 	implementation('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
 	compileOnly('org.projectlombok:lombok')
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
+	testRuntime('org.glassfish:javax.el-api:3.0.0') // necessario para conseguir testar validacao nos controllers por algum motivo
 }
